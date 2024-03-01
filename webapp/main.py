@@ -16,7 +16,8 @@ def generate_colored_text(text, colors):
 def align_text(text, alignment='center'):
     return f"<div style='text-align: {alignment};'>{text}</div>"
 
-rainbow_colors = ['#693C72', '#C15050', '#D97642', '#337357', '#D49D42']
+# rainbow_colors = ['#693C72', '#C15050', '#D97642', '#337357', '#D49D42']
+rainbow_colors = ['#54478c', '#2c699a', '#048ba8', '#0db39e', '#16db93', '#83e377']
 title = "Sound to Sympho♫y"
 notes = "♩♫♪"
 
