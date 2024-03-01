@@ -76,7 +76,6 @@ with col1:
     st.write("#### Piano")
     st.audio('upload/example.wav')
 
-
 with col2:
     st.write("#### Guitar")
     st.audio('upload/example.wav')
