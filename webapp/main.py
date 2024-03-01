@@ -6,24 +6,44 @@ import numpy as np
 import os
 from IPython.display import Audio
 
-rainbow_colors = ['#693C72', '#C15050', '#D97642', '#337357', '#D49D42']
-title = "Sound to Symphony"
-colored_title = "".join(
-    f"<span style='color: {rainbow_colors[i % len(rainbow_colors)]}; font-size: 60px; font-weight: bold;'>{char}</span>"
-    for i, char in enumerate(title)
-)
-st.markdown(colored_title, unsafe_allow_html=True)
 
-def plot_spectrogram(audio_path):
+def generate_colored_text(text, colors):
+    return "".join(
+        f"<span style='color: {colors[i % len(colors)]}; font-size: 75px; font-weight: bold;'>{char}</span>"
+        for i, char in enumerate(text)
+    )
+
+def align_text(text, alignment='center'):
+    return f"<div style='text-align: {alignment};'>{text}</div>"
+
+rainbow_colors = ['#693C72', '#C15050', '#D97642', '#337357', '#D49D42']
+title = "Sound to Sympho♫y"
+notes = "♩♫♪"
+
+# Left aligned notes
+# left_colored_notes = generate_colored_text(notes, rainbow_colors)
+# st.markdown(align_text(left_colored_notes, 'left'), unsafe_allow_html=True)
+
+# Centered title
+colored_title = generate_colored_text(title, rainbow_colors)
+st.markdown(align_text(colored_title, 'center'), unsafe_allow_html=True)
+
+# Right aligned notes
+# right_colored_notes = generate_colored_text(notes, rainbow_colors)
+# st.markdown(align_text(right_colored_notes, 'right'), unsafe_allow_html=True)
+
+
+#todo -- make name dianamic in case of multiple files
+def plot_spectrogram(audio_path, output_path='upload/spectrogram.png', cmap='viridis'):
     y, sr = librosa.load(audio_path)
     S = librosa.feature.melspectrogram(y=y, sr=sr)
     S_dB = librosa.power_to_db(S, ref=np.max)
     plt.figure(figsize=(10, 4))
-    librosa.display.specshow(S_dB, sr=sr, x_axis='time', y_axis='mel')
+    librosa.display.specshow(S_dB, sr=sr, x_axis='time', y_axis='mel', cmap=cmap)
     plt.colorbar(format='%+2.0f dB')
     plt.title('Mel-frequency spectrogram')
     plt.tight_layout()
-    plt.savefig('upload/spectrogram.png')
+    plt.savefig(output_path)
     plt.close()
 
 
