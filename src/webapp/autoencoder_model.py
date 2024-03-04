@@ -4,6 +4,7 @@ import librosa
 import numpy as np
 import soundfile as sf
 import time
+import os
 
 class Autoencoder(Model):
     def __init__(self, input_shape=(700, 33), latent_dim=300):
@@ -71,12 +72,32 @@ class Autoencoder(Model):
         warped_sample = librosa.feature.inverse.mel_to_audio(decoded_mel, n_fft=2500, sr=sr)
         return warped_sample
 
+    def save_model(self, file_path='autoencoder_model'):
+        """
+        Saves the entire model to a file.
+        """
+        self.save(file_path, save_format='tf')
+
+    @staticmethod
+    def load_model(file_path='autoencoder_model.tf'):
+        """
+        Loads a model from the specified file path.
+        """
+        return tf.keras.models.load_model(file_path, custom_objects={'Autoencoder': Autoencoder})
+
 if __name__ == "__main__":
+    print(f"Current Working Directory: {os.getcwd()}")
     autoencoder = Autoencoder()
     autoencoder.compile_model()
 
-    autoencoder.fit_training_sound('./webapp/upload/AMINOR.wav', epochs=10)
-    warped = autoencoder.warp_sample('./webapp/upload/SYNTH_piano.mp3')
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(base_dir, 'audio_bank', 'AMINOR.wav')
 
-    # sf.write(f"warped_sound_{time.time()}.wav", warped, autoencoder.sample_rate)
-    sf.write(f"./webapp/autoencoded_sound/warped_sound_{time.time()}.wav", warped, autoencoder.sample_rate)
+    # Make sure you're using 'file_path' here and not the incorrect relative path
+    autoencoder.fit_training_sound(file_path, epochs=10)
+    autoencoder.save_model('src/model/weights/autoencoder_model.tf')
+
+
+    #this needs to be in the streamlit
+    # warped = autoencoder.warp_sample('./webapp/upload/SYNTH_piano.mp3')
+    # sf.write(f"./webapp/autoencoded_sound/warped_sound_{time.time()}.wav", warped, autoencoder.sample_rate)
