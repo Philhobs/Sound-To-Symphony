@@ -1,0 +1,7 @@
+pretty_midi
+pandas
+numpy
+#collections
+seaborn
+matplotlib
+tensorflow
