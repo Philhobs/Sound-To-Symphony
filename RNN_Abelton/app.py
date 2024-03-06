@@ -2,7 +2,7 @@ import streamlit as st
 from pitch_list import pitch
 from RNN_model import RNN_Model
 import tensorflow as tf
-
+import pretty_midi
 
 
 def generate_colored_text(text, colors):
@@ -34,8 +34,30 @@ st.write('You selected:', option)
 st.write("")
 st.button('Generate Music')
 
+## construct model
 model = RNN_Model()
+
+## compling
 model.compile_model()
 
+## load weight
 checkpoint_path = './training_checkpoints/ckpt_5'
 model.load_weights(checkpoint_path)
+
+## get instrument name from input
+input_path = '' # !!!please set input file!!!
+pm = pretty_midi.PrettyMIDI(input_path)
+instrument = pm.instruments[0]
+instrument_name = pretty_midi.program_to_instrument_name(instrument.program)
+
+## preprocess input
+input_preproc = model.process_data(input_path)
+
+## prediction
+gen_notes = model.generate_notes_from_midi_file(input_preproc)
+
+## midi output
+output_path = ''
+output_midi = model._notes_to_midi(gen_notes, out_file = output_path, instrument_name = instrument_name)
+# output_path is midi file. I... dont know why it return output_midi for... maybe for playing music at the notebook
+
