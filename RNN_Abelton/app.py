@@ -50,11 +50,8 @@ pm = pretty_midi.PrettyMIDI(input_path)
 instrument = pm.instruments[0]
 instrument_name = pretty_midi.program_to_instrument_name(instrument.program)
 
-## preprocess input
-input_preproc = model.process_data(input_path)
-
 ## prediction
-gen_notes = model.generate_notes_from_midi_file(input_preproc)
+gen_notes = model.generate_notes_from_midi_file(input_path)
 
 ## midi output
 output_path = ''
