@@ -35,14 +35,14 @@ st.write("")
 st.button('Generate Music')
 
 ## construct model
-model = RNN_Model()
+rnn = RNN_Model()
 
 ## compling
-model.compile_model()
+rnn.compile_model()
 
 ## load weight
 checkpoint_path = './training_checkpoints/ckpt_5'
-model.load_weights(checkpoint_path)
+rnn.model.load_weights(checkpoint_path)
 
 ## get instrument name from input
 input_path = '' # !!!please set input file!!!
@@ -51,10 +51,10 @@ instrument = pm.instruments[0]
 instrument_name = pretty_midi.program_to_instrument_name(instrument.program)
 
 ## prediction
-gen_notes = model.generate_notes_from_midi_file(input_path)
+gen_notes = rnn.generate_notes_from_midi_file(input_path)
 
 ## midi output
 output_path = ''
-output_midi = model._notes_to_midi(gen_notes, out_file = output_path, instrument_name = instrument_name)
+output_midi = rnn._notes_to_midi(gen_notes, out_file = output_path, instrument_name = instrument_name)
 # output_path is midi file. I... dont know why it return output_midi for... maybe for playing music at the notebook
 
