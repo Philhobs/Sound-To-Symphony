@@ -1,6 +1,8 @@
 import streamlit as st
 from pitch_list import pitch
 from RNN_model import RNN_Model
+import tensorflow as tf
+
 
 
 def generate_colored_text(text, colors):
@@ -32,4 +34,8 @@ st.write('You selected:', option)
 st.write("")
 st.button('Generate Music')
 
-generate_music = RNN_Model.generate_notes_from_midi_file()
+model = RNN_Model()
+model.compile_model()
+
+checkpoint_path = './training_checkpoints/ckpt_5'
+model.load_weights(checkpoint_path)
