@@ -1280,7 +1280,7 @@ class RNN_Model(object):
 if __name__ == "__main__":
 
     # Find midi data in directory
-    path = '/Users/phila/code/Philhobs/Sound-To-Symphony/Abelton/MAESTRO/Data'
+    path = '/Users/code/Philhobs/Sound-To-Symphony/Abelton/MAESTRO/Data'
     my_data = [f for f in os.listdir(path) if f.lower().endswith('.midi')]
 
 
@@ -1314,76 +1314,8 @@ if __name__ == "__main__":
     print(gen_notes)
 
     # Or write to a MIDI file
-    #out_file = '/Users/phila/code/Philhobs/Sound-To-Symphony/Abelton/midi_output/output_midi.mid'
-    out_file = '/Users/phila/code/Philhobs/Sound-To-Symphony/Abelton/MAESTRO/Data/MIDI-Unprocessed_05_R1_2008_01-04_ORIG_MID--AUDIO_05_R1_2008_wav--4.midi'
+    #out_file = '/Users/code/Philhobs/Sound-To-Symphony/Abelton/midi_output/output_midi.mid'
+    out_file = '/Users/code/Philhobs/Sound-To-Symphony/Abelton/MAESTRO/Data/MIDI-Unprocessed_05_R1_2008_01-04_ORIG_MID--AUDIO_05_R1_2008_wav--4.midi'
     out_pm = RNN._notes_to_midi(gen_notes, out_file=out_file, instrument_name=instrument_name)
 
     print(" --- completed ---")
-
-
-#ADDED FROM HERE
-# Function to generate MIDI file using the RNN model and return its path
-'''def generate_midi(out_pm, base_path= out_file, presample_file_path=out_file):
-    """
-    Generates a new MIDI file using the RNN model and returns the file path.
-
-    Parameters:
-    - model: The instance of the RNN_Model class.
-    - base_path: The base directory to save generated MIDI files.
-    - sample_file_path: The path to a sample MIDI file to base the generation on.
-
-    Returns:
-    - The path to the generated MIDI file.
-    """
-    # Generate the notes using the RNN model
-    gen_notes = model.generate_notes_from_midi_file(presample_file_path)
-
-    # Construct a unique file name based on the current timestamp
-    timestamp = int(time.time())
-    file_name = f"generated_{timestamp}.mid"
-    output_file_path = os.path.join(base_path, file_name)
-
-    # Use the model's method to save the generated notes to a MIDI file
-    model._notes_to_midi(gen_notes, out_file=output_file_path, instrument_name="Acoustic Grand Piano")
-
-    # Return the path to the newly created MIDI file
-    return output_file_path
-
-# Initialize MIDI output
-print('Initializing MIDI output...')
-midiout = rtmidi.MidiOut()
-available_ports = midiout.get_ports()
-
-if available_ports:
-    midiout.open_port(0)
-else:
-    midiout.open_virtual_port("My virtual output")
-
-def play_midi_file(mid):
-    for msg in mid.play():
-        if not msg.is_meta:
-            midi_bytes = msg.bytes()
-            midiout.send_message(midi_bytes)
-            time.sleep(msg.time)
-print('MIDI output initialized')
-def continuous_playback():
-    current_midi_path = generate_midi()  # Generate the first MIDI file
-    while True:
-        mid = MidiFile(current_midi_path)
-        # Play the MIDI file in a separate thread
-        Thread(target=play_midi_file, args=(mid,)).start()
-
-        # Generate the next MIDI file while the current one is playing
-        next_midi_path = generate_midi()
-
-        # Here, implement logic to wait for the current MIDI file to finish playing
-        # This is a simplified placeholder
-        time_to_wait = mid.length  # Length of the current MIDI file in seconds
-        time.sleep(time_to_wait)
-
-        # Queue the next MIDI file for playback
-        current_midi_path = next_midi_path
-
-# Start the continuous playback loop
-continuous_playback()
-'''
