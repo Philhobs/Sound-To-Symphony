@@ -45,17 +45,17 @@ checkpoint_path = './training_checkpoints/ckpt_5'
 rnn.model.load_weights(checkpoint_path)
 
 ## get instrument name from input
-input_path = '' # !!!please set input file!!!
+input_path = 'test.midi' # !!!please set input file!!!
 pm = pretty_midi.PrettyMIDI(input_path)
 instrument = pm.instruments[0]
 instrument_name = pretty_midi.program_to_instrument_name(instrument.program)
 
 ## prediction
-key_name = ''
+key_name = 'C_minor'
 gen_notes = rnn.generate_notes_from_midi_file(input_path, key = key_name)
 
 ## midi output
-output_path = ''
+output_path = 'new.midi'
 output_midi = rnn._notes_to_midi(gen_notes, out_file = output_path, instrument_name = instrument_name)
 # output_path is midi file. I... dont know why it return output_midi for... maybe for playing music at the notebook
 
