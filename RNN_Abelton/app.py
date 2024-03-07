@@ -4,7 +4,7 @@ from RNN_model import RNN_Model
 import tensorflow as tf
 import pretty_midi
 import os
-
+import io
 
 def generate_colored_text(text, colors):
     return "".join(
@@ -23,12 +23,10 @@ colored_title = generate_colored_text(title, rainbow_colors)
 st.markdown(align_text(colored_title, 'center'), unsafe_allow_html=True)
 
 #***** code *****
-
 ## construct model
 rnn = RNN_Model()
 rnn.compile_model()
-checkpoint_path = 'RNN_Abelton/training_checkpoints/ckpt_5'
-st.write(checkpoint_path)
+checkpoint_path = './training_checkpoints/ckpt_5'
 rnn.model.load_weights(checkpoint_path)
 
 
@@ -46,16 +44,22 @@ if uploaded_file is not None:
 option = st.selectbox(
    "Select a pitch",
    pitch,
-   index=None,
-#    placeholder="Select pitch",
+   index=None
 )
 st.write('You selected:', option)
-
 st.write("")
-
 
 key_name = ''
 if st.button('Generate Midi'):
     gen_notes = rnn.generate_notes_from_midi_file(file_path, key=option)
-    output_path = 'CHRISTELLE_1.midi'
-    output_midi = rnn._notes_to_midi(gen_notes, out_file = output_path, instrument_name = instrument_name)
+    output_path = 'output.mid'
+    output_midi = rnn._notes_to_midi(gen_notes, out_file=output_path, instrument_name=instrument_name)
+
+    with open(output_path, 'rb') as f:
+        midi_bytes = f.read()
+    midi_buffer = io.BytesIO(midi_bytes)
+    st.download_button(
+         label="Download Midi",
+         data=midi_buffer,
+         file_name="generated_midi.mid",
+         mime="audio/midi")
