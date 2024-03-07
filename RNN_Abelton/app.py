@@ -4,7 +4,7 @@ from RNN_model import RNN_Model
 import tensorflow as tf
 import pretty_midi
 import os
-
+import io
 
 def generate_colored_text(text, colors):
     return "".join(
@@ -56,5 +56,20 @@ st.write("")
 key_name = ''
 if st.button('Generate Midi'):
     gen_notes = rnn.generate_notes_from_midi_file(file_path, key=option)
-    output_path = 'CHRISTELLE_1.midi'
-    output_midi = rnn._notes_to_midi(gen_notes, out_file = output_path, instrument_name = instrument_name)
+    output_path = 'output.mid'
+    output_midi = rnn._notes_to_midi(gen_notes, out_file=output_path, instrument_name=instrument_name)
+
+
+    # Create an in-memory bytes buffer for your MIDI file
+    with open(output_path, 'rb') as f:
+        midi_bytes = f.read()
+    midi_buffer = io.BytesIO(midi_bytes)
+
+    st.audio(data=output_path, format='audio/midi', start_time=0)
+
+    st.download_button(
+         label="Download Midi",
+         data=midi_buffer,
+         file_name="generated_midi.mid",
+         mime="audio/midi"
+    )
