@@ -4,10 +4,9 @@ import collections
 import numpy as np
 import os
 import pandas as pd
-import pretty_midi
 import tensorflow as tf
 from tensorflow.keras import layers, Sequential
-
+import pretty_midi
 
 
 
