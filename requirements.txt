@@ -5,9 +5,12 @@ numpy
 pandas
 
 pretty_midi
+mir_eval
+pyfluidsynth
 
 tensorflow
 
 streamlit
 
 rtmidi
+
