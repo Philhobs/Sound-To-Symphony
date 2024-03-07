@@ -23,7 +23,6 @@ colored_title = generate_colored_text(title, rainbow_colors)
 st.markdown(align_text(colored_title, 'center'), unsafe_allow_html=True)
 
 #***** code *****
-
 ## construct model
 rnn = RNN_Model()
 rnn.compile_model()
@@ -45,13 +44,10 @@ if uploaded_file is not None:
 option = st.selectbox(
    "Select a pitch",
    pitch,
-   index=None,
-#    placeholder="Select pitch",
+   index=None
 )
 st.write('You selected:', option)
-
 st.write("")
-
 
 key_name = ''
 if st.button('Generate Midi'):
@@ -59,17 +55,11 @@ if st.button('Generate Midi'):
     output_path = 'output.mid'
     output_midi = rnn._notes_to_midi(gen_notes, out_file=output_path, instrument_name=instrument_name)
 
-
-    # Create an in-memory bytes buffer for your MIDI file
     with open(output_path, 'rb') as f:
         midi_bytes = f.read()
     midi_buffer = io.BytesIO(midi_bytes)
-
-    st.audio(data=output_path, format='audio/midi', start_time=0)
-
     st.download_button(
          label="Download Midi",
          data=midi_buffer,
          file_name="generated_midi.mid",
-         mime="audio/midi"
-    )
+         mime="audio/midi")
