@@ -12,5 +12,5 @@ tensorflow
 
 streamlit
 
-rtmidi
+
 
