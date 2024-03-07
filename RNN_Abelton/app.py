@@ -28,6 +28,7 @@ st.markdown(align_text(colored_title, 'center'), unsafe_allow_html=True)
 rnn = RNN_Model()
 rnn.compile_model()
 checkpoint_path = './training_checkpoints/ckpt_5'
+print(checkpoint_path)
 rnn.model.load_weights(checkpoint_path)
 
 
