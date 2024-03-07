@@ -1,3 +1,5 @@
+import pretty_midi
+
 pitch = ['C_major', 'C_minor', 'D_major', 'D_minor', 'E_major', 'E_minor',
                           'F_major', 'F_minor', 'G_major', 'G_minor', 'A_major', 'A_minor',
                           'B_major', 'B_minor', 'Db_major', 'Db_minor', 'Eb_major', 'Eb_minor',
