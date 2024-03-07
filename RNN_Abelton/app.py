@@ -51,7 +51,8 @@ instrument = pm.instruments[0]
 instrument_name = pretty_midi.program_to_instrument_name(instrument.program)
 
 ## prediction
-gen_notes = rnn.generate_notes_from_midi_file(input_path)
+key_name = ''
+gen_notes = rnn.generate_notes_from_midi_file(input_path, key = key_name)
 
 ## midi output
 output_path = ''
